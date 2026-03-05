@@ -87,8 +87,7 @@ git add gradle.properties
 git commit -m "chore(release): bump version to ${VERSION}"
 
 git tag -a "$TAG" -m "Release $TAG"
-git push origin main
-git push origin "$TAG"
+git push origin main "$TAG"
 
 echo ""
 echo "Released $TAG"
