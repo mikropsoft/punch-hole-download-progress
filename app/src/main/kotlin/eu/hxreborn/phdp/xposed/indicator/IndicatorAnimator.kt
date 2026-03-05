@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.view.animation.OvershootInterpolator
+import eu.hxreborn.phdp.prefs.PrefsManager
 import eu.hxreborn.phdp.util.logDebug
 
 class IndicatorAnimator(
@@ -223,7 +224,7 @@ class IndicatorAnimator(
         finishAnimator =
             playInt(
                 from = 0,
-                to = SEGMENT_COUNT + 2,
+                to = PrefsManager.segmentCount + 2,
                 durationMs = cascadePhaseMs,
                 onUpdate = { segment ->
                     segmentHighlight = segment

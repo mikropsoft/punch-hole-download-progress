@@ -81,6 +81,8 @@ class PrefsRepositoryImpl(
             minVisibilityEnabled = Prefs.minVisibilityEnabled.read(this),
             minVisibilityMs = Prefs.minVisibilityMs.read(this),
             completionPulseEnabled = Prefs.completionPulseEnabled.read(this),
+            segmentCount = Prefs.segmentCount.read(this),
+            segmentGapDegrees = Prefs.segmentGapDegrees.read(this),
             percentTextEnabled = Prefs.percentTextEnabled.read(this),
             percentTextPosition = Prefs.percentTextPosition.read(this),
             percentTextOffsets =

@@ -45,6 +45,10 @@ object Prefs {
     val finishFlashColor = IntPref("finish_flash_color", MaterialPalette.White)
     val completionPulseEnabled = BoolPref("completion_pulse_enabled", true)
 
+    // Segment animation
+    val segmentCount = IntPref("segment_count", 12, 4..24)
+    val segmentGapDegrees = FloatPref("segment_gap_degrees", 6f, 1f..15f)
+
     // Text overlays
     val percentTextEnabled = BoolPref("percent_text_enabled", false)
     val percentTextPosition = StringPref("percent_text_position", "right")
@@ -180,6 +184,8 @@ object Prefs {
             finishUseFlashColor,
             finishFlashColor,
             completionPulseEnabled,
+            segmentCount,
+            segmentGapDegrees,
             percentTextEnabled,
             percentTextPosition,
             percentTextOffsets,

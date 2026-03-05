@@ -32,6 +32,8 @@ data class PrefsState(
     val minVisibilityEnabled: Boolean = Prefs.minVisibilityEnabled.default,
     val minVisibilityMs: Int = Prefs.minVisibilityMs.default,
     val completionPulseEnabled: Boolean = Prefs.completionPulseEnabled.default,
+    val segmentCount: Int = Prefs.segmentCount.default,
+    val segmentGapDegrees: Float = Prefs.segmentGapDegrees.default,
     val percentTextEnabled: Boolean = Prefs.percentTextEnabled.default,
     val percentTextPosition: String = Prefs.percentTextPosition.default,
     val percentTextOffsets: RotationOffsets = RotationOffsets.EMPTY,

@@ -1,6 +1,7 @@
 package eu.hxreborn.phdp.ui.screen
 
 import android.content.res.Configuration
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +20,7 @@ import eu.hxreborn.phdp.ui.SettingsViewModel
 import eu.hxreborn.phdp.ui.component.SectionCard
 import eu.hxreborn.phdp.ui.component.preference.NavigationPreference
 import eu.hxreborn.phdp.ui.component.preference.SelectPreference
+import eu.hxreborn.phdp.ui.component.preference.SliderPreferenceWithReset
 import eu.hxreborn.phdp.ui.component.preference.TogglePreferenceWithIcon
 import eu.hxreborn.phdp.ui.theme.AppTheme
 import eu.hxreborn.phdp.ui.theme.DarkThemeConfig
@@ -56,9 +58,10 @@ fun BehaviorScreen(
 
             item(key = "motion_animation_section") {
                 SectionCard(
+                    modifier = Modifier.animateContentSize(),
                     items =
-                        listOf(
-                            {
+                        buildList {
+                            add {
                                 SelectPreference(
                                     value = prefsState.finishStyle,
                                     onValueChange = { viewModel.savePref(Prefs.finishStyle, it) },
@@ -78,8 +81,8 @@ fun BehaviorScreen(
                                             ?: it
                                     },
                                 )
-                            },
-                            {
+                            }
+                            add {
                                 TogglePreferenceWithIcon(
                                     value = prefsState.clockwise,
                                     onValueChange = { viewModel.savePref(Prefs.clockwise, it) },
@@ -98,8 +101,67 @@ fun BehaviorScreen(
                                         Text(stringResource(text))
                                     },
                                 )
-                            },
-                        ),
+                            }
+                            if (prefsState.finishStyle == "segmented") {
+                                add {
+                                    val segCountRange = Prefs.segmentCount.range!!
+                                    SliderPreferenceWithReset(
+                                        value = prefsState.segmentCount.toFloat(),
+                                        onValueChange = {
+                                            viewModel.savePref(Prefs.segmentCount, it.toInt())
+                                        },
+                                        title = {
+                                            Text(
+                                                stringResource(R.string.pref_segment_count_title),
+                                            )
+                                        },
+                                        summary = {
+                                            Text(
+                                                stringResource(R.string.pref_segment_count_summary),
+                                            )
+                                        },
+                                        valueRange = segCountRange.first.toFloat()..segCountRange.last.toFloat(),
+                                        defaultValue = Prefs.segmentCount.default.toFloat(),
+                                        onReset = {
+                                            viewModel.savePref(
+                                                Prefs.segmentCount,
+                                                Prefs.segmentCount.default,
+                                            )
+                                        },
+                                        valueText = { Text("${it.toInt()}") },
+                                        stepSize = 1f,
+                                    )
+                                }
+                                add {
+                                    SliderPreferenceWithReset(
+                                        value = prefsState.segmentGapDegrees,
+                                        onValueChange = {
+                                            viewModel.savePref(Prefs.segmentGapDegrees, it)
+                                        },
+                                        title = {
+                                            Text(
+                                                stringResource(R.string.pref_segment_gap_title),
+                                            )
+                                        },
+                                        summary = {
+                                            Text(
+                                                stringResource(R.string.pref_segment_gap_summary),
+                                            )
+                                        },
+                                        valueRange = Prefs.segmentGapDegrees.range!!,
+                                        defaultValue = Prefs.segmentGapDegrees.default,
+                                        onReset = {
+                                            viewModel.savePref(
+                                                Prefs.segmentGapDegrees,
+                                                Prefs.segmentGapDegrees.default,
+                                            )
+                                        },
+                                        valueText = { Text("%.1f\u00B0".format(it)) },
+                                        stepSize = 1f,
+                                    )
+                                }
+                            }
+                        },
                 )
             }
 

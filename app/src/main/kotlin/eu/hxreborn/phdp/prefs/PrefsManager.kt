@@ -98,6 +98,14 @@ object PrefsManager {
         private set
 
     @Volatile
+    var segmentCount = Prefs.segmentCount.default
+        private set
+
+    @Volatile
+    var segmentGapDegrees = Prefs.segmentGapDegrees.default
+        private set
+
+    @Volatile
     var percentTextEnabled = Prefs.percentTextEnabled.default
         private set
 
@@ -318,6 +326,8 @@ object PrefsManager {
                 minVisibilityEnabled = Prefs.minVisibilityEnabled.read(prefs)
                 minVisibilityMs = Prefs.minVisibilityMs.read(prefs)
                 completionPulseEnabled = Prefs.completionPulseEnabled.read(prefs)
+                segmentCount = Prefs.segmentCount.read(prefs)
+                segmentGapDegrees = Prefs.segmentGapDegrees.read(prefs)
                 percentTextEnabled = Prefs.percentTextEnabled.read(prefs)
                 percentTextPosition = Prefs.percentTextPosition.read(prefs)
                 percentTextOffsets =

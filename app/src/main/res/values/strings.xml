@@ -137,6 +137,10 @@
     <!-- Motion: Animation -->
     <string name="pref_completion_style_title">Completion style</string>
     <string name="pref_completion_style_summary">Visual effect when downloads finish</string>
+    <string name="pref_segment_count_title">Segment count</string>
+    <string name="pref_segment_count_summary">Number of segments in the completion animation</string>
+    <string name="pref_segment_gap_title">Segment gap</string>
+    <string name="pref_segment_gap_summary">Spacing between segments in degrees</string>
 
     <!-- Motion: Timing -->
 
