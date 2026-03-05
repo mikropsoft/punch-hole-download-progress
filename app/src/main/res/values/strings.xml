@@ -88,6 +88,12 @@
     <string name="pref_background_ring_color_summary">Color of the background ring</string>
     <string name="pref_background_ring_opacity_title">Background ring opacity</string>
 
+    <!-- Design: Glow -->
+    <string name="pref_glow_enabled_title">Glow effect</string>
+    <string name="pref_glow_enabled_summary">Halo around the progress ring</string>
+    <string name="pref_glow_radius_title">Glow radius</string>
+    <string name="pref_glow_radius_summary">Size of the glow halo</string>
+
     <!-- Design: Geometry -->
     <string name="pref_stroke_width_title">Thickness</string>
     <string name="pref_stroke_width_summary">Progress arc width</string>

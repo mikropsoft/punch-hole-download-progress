@@ -215,7 +215,12 @@ class IndicatorView(
             alpha = effectiveOpacity * 255 / 100
             strokeWidth = PrefsManager.strokeWidth * density
             this.strokeCap = strokeCap
-            maskFilter = null
+            setShadowLayer(
+                if (PrefsManager.glowEnabled) PrefsManager.glowRadius * density else 0f,
+                0f,
+                0f,
+                color,
+            )
         }
 
         shinePaint.apply {
@@ -546,11 +551,14 @@ class IndicatorView(
         arcBounds.applyCalibration()
         renderer.updateBounds(arcBounds)
         if (PrefsManager.finishStyle == "segmented") {
+            val count = PrefsManager.segmentCount
+            val gap = PrefsManager.segmentGapDegrees
+            val arc = (360f - count * gap) / count
             renderer.drawSegmented(
                 canvas,
-                IndicatorAnimator.SEGMENT_COUNT,
-                IndicatorAnimator.SEGMENT_GAP_DEGREES,
-                IndicatorAnimator.SEGMENT_ARC_DEGREES,
+                count,
+                gap,
+                arc,
                 animator.segmentHighlight,
                 paint,
                 shinePaint,

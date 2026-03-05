@@ -24,6 +24,10 @@ object Prefs {
     val backgroundRingColor = IntPref("background_ring_color", MaterialPalette.Grey)
     val backgroundRingOpacity = IntPref("background_ring_opacity", 30, 1..100)
 
+    // Glow
+    val glowEnabled = BoolPref("glow_enabled", false)
+    val glowRadius = FloatPref("glow_radius", 4f, 1f..15f)
+
     // Geometry
     val ringScaleX = FloatPref("ring_scale_x", 1f, 0.25f..3f)
     val ringScaleY = FloatPref("ring_scale_y", 1f, 0.25f..3f)
@@ -161,6 +165,8 @@ object Prefs {
             backgroundRingEnabled,
             backgroundRingColor,
             backgroundRingOpacity,
+            glowEnabled,
+            glowRadius,
             ringScaleX,
             ringScaleY,
             ringScaleLinked,
@@ -212,6 +218,8 @@ object Prefs {
             backgroundRingEnabled.key,
             backgroundRingColor.key,
             backgroundRingOpacity.key,
+            glowEnabled.key,
+            glowRadius.key,
             ringScaleX.key,
             ringScaleY.key,
             ringOffsetX.key,

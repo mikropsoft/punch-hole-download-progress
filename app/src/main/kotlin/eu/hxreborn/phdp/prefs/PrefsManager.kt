@@ -206,6 +206,14 @@ object PrefsManager {
         private set
 
     @Volatile
+    var glowEnabled = Prefs.glowEnabled.default
+        private set
+
+    @Volatile
+    var glowRadius = Prefs.glowRadius.default
+        private set
+
+    @Volatile
     var selectedPackages = Prefs.selectedPackages.default
         private set
 
@@ -349,6 +357,8 @@ object PrefsManager {
                 backgroundRingEnabled = Prefs.backgroundRingEnabled.read(prefs)
                 backgroundRingColor = Prefs.backgroundRingColor.read(prefs)
                 backgroundRingOpacity = Prefs.backgroundRingOpacity.read(prefs)
+                glowEnabled = Prefs.glowEnabled.read(prefs)
+                glowRadius = Prefs.glowRadius.read(prefs)
                 selectedPackages = Prefs.selectedPackages.read(prefs)
             }
         }.onFailure { log("refreshCache() failed", it) }

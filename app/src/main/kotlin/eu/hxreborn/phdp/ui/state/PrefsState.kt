@@ -18,6 +18,8 @@ data class PrefsState(
     val backgroundRingEnabled: Boolean = Prefs.backgroundRingEnabled.default,
     val backgroundRingColor: Int = Prefs.backgroundRingColor.default,
     val backgroundRingOpacity: Int = Prefs.backgroundRingOpacity.default,
+    val glowEnabled: Boolean = Prefs.glowEnabled.default,
+    val glowRadius: Float = Prefs.glowRadius.default,
     val powerSaverMode: String = Prefs.powerSaverMode.default,
     val showDownloadCount: Boolean = Prefs.showDownloadCount.default,
     val badgeOffsets: RotationOffsets = RotationOffsets.EMPTY,

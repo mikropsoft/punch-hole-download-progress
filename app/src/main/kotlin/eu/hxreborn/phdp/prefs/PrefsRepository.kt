@@ -62,6 +62,8 @@ class PrefsRepositoryImpl(
             backgroundRingEnabled = Prefs.backgroundRingEnabled.read(this),
             backgroundRingColor = Prefs.backgroundRingColor.read(this),
             backgroundRingOpacity = Prefs.backgroundRingOpacity.read(this),
+            glowEnabled = Prefs.glowEnabled.read(this),
+            glowRadius = Prefs.glowRadius.read(this),
             powerSaverMode = Prefs.powerSaverMode.read(this),
             showDownloadCount = Prefs.showDownloadCount.read(this),
             badgeOffsets =

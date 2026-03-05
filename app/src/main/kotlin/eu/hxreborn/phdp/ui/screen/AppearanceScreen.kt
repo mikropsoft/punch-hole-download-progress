@@ -1,6 +1,7 @@
 package eu.hxreborn.phdp.ui.screen
 
 import android.content.res.Configuration
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -225,10 +226,11 @@ fun AppearanceScreen(
 
             item(key = "design_background_ring_section") {
                 SectionCard(
+                    modifier = Modifier.animateContentSize(),
                     enabled = prefsState.backgroundRingEnabled,
                     items =
-                        listOf(
-                            {
+                        buildList {
+                            add {
                                 TogglePreferenceWithIcon(
                                     value = prefsState.backgroundRingEnabled,
                                     onValueChange = {
@@ -245,8 +247,8 @@ fun AppearanceScreen(
                                         )
                                     },
                                 )
-                            },
-                            {
+                            }
+                            add {
                                 ColorPreference(
                                     value = prefsState.backgroundRingColor,
                                     onValueChange = {
@@ -265,8 +267,8 @@ fun AppearanceScreen(
                                     enabled = prefsState.backgroundRingEnabled,
                                     colors = MaterialPalette.backgroundColors,
                                 )
-                            },
-                            {
+                            }
+                            add {
                                 val opacityRange = Prefs.backgroundRingOpacity.range!!
                                 SliderPreferenceWithReset(
                                     value = prefsState.backgroundRingOpacity.toFloat(),
@@ -289,8 +291,55 @@ fun AppearanceScreen(
                                     valueText = { Text("${it.toInt()}%") },
                                     enabled = prefsState.backgroundRingEnabled,
                                 )
-                            },
-                        ),
+                            }
+                            add {
+                                TogglePreferenceWithIcon(
+                                    value = prefsState.glowEnabled,
+                                    onValueChange = {
+                                        viewModel.savePref(Prefs.glowEnabled, it)
+                                    },
+                                    title = {
+                                        Text(
+                                            stringResource(R.string.pref_glow_enabled_title),
+                                        )
+                                    },
+                                    summary = {
+                                        Text(
+                                            stringResource(R.string.pref_glow_enabled_summary),
+                                        )
+                                    },
+                                )
+                            }
+                            if (prefsState.glowEnabled) {
+                                add {
+                                    SliderPreferenceWithReset(
+                                        value = prefsState.glowRadius,
+                                        onValueChange = {
+                                            viewModel.savePref(Prefs.glowRadius, it)
+                                        },
+                                        title = {
+                                            Text(
+                                                stringResource(R.string.pref_glow_radius_title),
+                                            )
+                                        },
+                                        summary = {
+                                            Text(
+                                                stringResource(R.string.pref_glow_radius_summary),
+                                            )
+                                        },
+                                        valueRange = Prefs.glowRadius.range!!,
+                                        defaultValue = Prefs.glowRadius.default,
+                                        onReset = {
+                                            viewModel.savePref(
+                                                Prefs.glowRadius,
+                                                Prefs.glowRadius.default,
+                                            )
+                                        },
+                                        valueText = { Text("%.1fdp".format(it)) },
+                                    )
+                                }
+                            }
+                        },
                 )
             }
 
