@@ -204,7 +204,6 @@ class IndicatorView(
                 invalidate()
             }
         }
-
     }
 
     @SuppressLint("DiscouragedApi")
