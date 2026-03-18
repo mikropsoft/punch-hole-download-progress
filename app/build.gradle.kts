@@ -152,6 +152,14 @@ tasks.register<JavaExec>("ktlintFormat") {
     args("-F", "src/**/*.kt")
 }
 
+val copyAboutLibraries by tasks.registering(Copy::class) {
+    dependsOn("exportLibraryDefinitions")
+    from("build/generated/aboutLibraries/aboutlibraries.json")
+    into("build/generated/aboutLibrariesRes/raw")
+}
+
+android.sourceSets["main"].res.directories.add("build/generated/aboutLibrariesRes")
+
 tasks.named("preBuild").configure {
-    dependsOn("ktlintCheck")
+    dependsOn("ktlintCheck", copyAboutLibraries)
 }
