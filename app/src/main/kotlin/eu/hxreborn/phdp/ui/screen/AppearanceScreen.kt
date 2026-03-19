@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import me.zhanghai.compose.preference.ProvidePreferenceLocals
 import me.zhanghai.compose.preference.preferenceCategory
 
-enum class CalibrationTarget { RING, PERCENT, FILENAME }
+enum class CalibrationTarget { RING, PERCENT, FILENAME, APP_ICON }
 
 @Composable
 fun AppearanceScreen(
@@ -483,6 +483,104 @@ fun AppearanceScreen(
                                 )
                             },
                         ),
+                )
+            }
+
+            preferenceCategory(
+                key = "design_app_icon_header",
+                title = { Text(stringResource(R.string.group_app_icon)) },
+            )
+
+            item(key = "design_app_icon_section") {
+                SectionCard(
+                    modifier = Modifier.animateContentSize(),
+                    items =
+                        buildList {
+                            add {
+                                TogglePreferenceWithIcon(
+                                    value = prefsState.appIconEnabled,
+                                    onValueChange = {
+                                        viewModel.savePref(Prefs.appIconEnabled, it)
+                                    },
+                                    title = {
+                                        Text(
+                                            stringResource(R.string.pref_app_icon_enabled_title),
+                                        )
+                                    },
+                                    summary = {
+                                        Text(
+                                            stringResource(R.string.pref_app_icon_enabled_summary),
+                                        )
+                                    },
+                                )
+                            }
+                            if (prefsState.appIconEnabled) {
+                                if (Build.VERSION.SDK_INT >= 33) {
+                                    add {
+                                        TogglePreferenceWithIcon(
+                                            value = prefsState.appIconMonochrome,
+                                            onValueChange = {
+                                                viewModel.savePref(Prefs.appIconMonochrome, it)
+                                            },
+                                            title = {
+                                                Text(
+                                                    stringResource(R.string.pref_app_icon_monochrome_title),
+                                                )
+                                            },
+                                            summary = {
+                                                Text(
+                                                    stringResource(R.string.pref_app_icon_monochrome_summary),
+                                                )
+                                            },
+                                        )
+                                    }
+                                }
+                                add {
+                                    SliderPreferenceWithReset(
+                                        value = prefsState.appIconSize,
+                                        onValueChange = {
+                                            viewModel.savePref(Prefs.appIconSize, it)
+                                        },
+                                        title = {
+                                            Text(
+                                                stringResource(R.string.pref_app_icon_size_title),
+                                            )
+                                        },
+                                        summary = {
+                                            Text(
+                                                stringResource(R.string.pref_app_icon_size_summary),
+                                            )
+                                        },
+                                        valueRange = Prefs.appIconSize.range!!,
+                                        defaultValue = Prefs.appIconSize.default,
+                                        onReset = {
+                                            viewModel.savePref(
+                                                Prefs.appIconSize,
+                                                Prefs.appIconSize.default,
+                                            )
+                                        },
+                                        valueText = { Text("%.0fdp".format(it)) },
+                                    )
+                                }
+                                add {
+                                    NavigationPreference(
+                                        onClick = {
+                                            onNavigateToCalibration(CalibrationTarget.APP_ICON)
+                                        },
+                                        title = {
+                                            Text(
+                                                stringResource(R.string.pref_calibrate_app_icon_title),
+                                            )
+                                        },
+                                        summary = {
+                                            Text(
+                                                stringResource(R.string.pref_calibrate_app_icon_summary),
+                                            )
+                                        },
+                                    )
+                                }
+                            }
+                        },
                 )
             }
         }

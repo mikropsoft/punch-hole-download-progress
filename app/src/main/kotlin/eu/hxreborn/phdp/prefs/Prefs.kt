@@ -79,9 +79,16 @@ object Prefs {
     val filenameVerticalText =
         BoolPref("filename_vertical_text", false)
 
+    // App icon overlay
+    val appIconEnabled = BoolPref("app_icon_enabled", false)
+    val appIconPosition = StringPref("app_icon_position", "top_right")
+    val appIconSize = FloatPref("app_icon_size", 14f, 8f..32f)
+    val appIconMonochrome = BoolPref("app_icon_monochrome", false)
+
     // Per-rotation offset profiles: x,y|x,y|x,y|x,y for R0|R90|R180|R270
     val percentTextOffsets = RotationOffsetsPref("percent_text_offsets_by_rotation")
     val filenameTextOffsets = RotationOffsetsPref("filename_text_offsets_by_rotation")
+    val appIconOffsets = RotationOffsetsPref("app_icon_offsets_by_rotation")
     val badgeOffsets = RotationOffsetsPref("badge_offsets_by_rotation")
     val previewFilenameText =
         StringPref(
@@ -211,6 +218,11 @@ object Prefs {
             filenameTextItalic,
             filenameEllipsize,
             filenameVerticalText,
+            appIconEnabled,
+            appIconPosition,
+            appIconSize,
+            appIconMonochrome,
+            appIconOffsets,
             previewFilenameText,
             materialYouEnabled,
             materialYouProgressPalette,
@@ -261,6 +273,11 @@ object Prefs {
             filenameTextItalic.key,
             filenameEllipsize.key,
             filenameVerticalText.key,
+            appIconEnabled.key,
+            appIconPosition.key,
+            appIconSize.key,
+            appIconMonochrome.key,
+            appIconOffsets.key,
             previewFilenameText.key,
             badgeOffsets.key,
             badgeTextSize.key,

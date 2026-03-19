@@ -36,6 +36,7 @@ class IndicatorView(
     private var drawCount = 0
     private val density = resources.displayMetrics.density
     private val badgePainter = BadgePainter(density)
+    private val iconPainter = IconPainter(context, density)
 
     // ArcRingRenderer (default) for circles, PathRingRenderer for pills. Toggled via "Path mode" pref.
     private var renderer: RingRenderer = ArcRingRenderer()
@@ -63,6 +64,16 @@ class IndicatorView(
         set(value) {
             if (field != value) {
                 field = value
+                post { invalidate() }
+            }
+        }
+
+    @Volatile
+    var currentPackageName: String? = null
+        set(value) {
+            if (field != value) {
+                field = value
+                iconPainter.invalidateCache()
                 post { invalidate() }
             }
         }
@@ -324,6 +335,7 @@ class IndicatorView(
         }
 
         badgePainter.updateColors(resolvedRingColor, PrefsManager.badgeTextSize)
+        iconPainter.updateColors(resolvedRingColor, effectiveOpacity)
 
         logDebug {
             "Paint updated: color=${Integer.toHexString(resolvedRingColor)}, " +
@@ -364,6 +376,7 @@ class IndicatorView(
         pendingFinishRunnable?.let { removeCallbacks(it) }
         pendingFinishRunnable = null
         removeCallbacks(burnInHideRunnable)
+        iconPainter.recycle()
         PrefsManager.onPrefsChanged = null
         PrefsManager.onTestProgressChanged = null
         PrefsManager.onTestErrorChanged = null
@@ -547,7 +560,10 @@ class IndicatorView(
 
                 val showLabels =
                     effectiveProgress in 1..99 || animator.isGeometryPreviewActive
-                if (showLabels) drawLabels(this, effectiveProgress)
+                if (showLabels) {
+                    drawLabels(this, effectiveProgress)
+                    drawAppIcon(this)
+                }
             }
 
             // Badge drawn BELOW the ring (not at center - that's behind camera hardware)
@@ -711,6 +727,36 @@ class IndicatorView(
             spec.align?.let { (spec.paint as? TextPaint)?.textAlign = it }
             canvas.drawText(spec.text, spec.x, spec.y, spec.paint)
         }
+    }
+
+    private fun drawAppIcon(canvas: Canvas) {
+        if (!PrefsManager.appIconEnabled) return
+
+        val isGeometryPreview = animator.isGeometryPreviewActive
+        val packageName =
+            currentPackageName
+                ?: if (isGeometryPreview) context.packageName else return
+
+        if (activeDownloadCount > 1 && !isGeometryPreview) return
+
+        val sizePx = PrefsManager.appIconSize * density
+        val padding = LABEL_PADDING_DP * density
+        val rotation = display?.rotation ?: Surface.ROTATION_0
+        val slot = RotationSlot.fromSurfaceRotation(rotation)
+
+        val (baseX, baseY, _) =
+            computeLabelPosition(
+                rotatePosition(PrefsManager.appIconPosition, rotation),
+                padding,
+                sizePx,
+                sizePx,
+            )
+
+        val iconOffset = PrefsManager.appIconOffsets[slot]
+        val x = baseX + iconOffset.x * density - sizePx / 2
+        val y = baseY + iconOffset.y * density - sizePx
+
+        iconPainter.draw(canvas, x, y, packageName)
     }
 
     private fun computeLabelPosition(
@@ -982,9 +1028,9 @@ class IndicatorView(
         private const val ERROR_STROKE_MULTIPLIER = 1.5f
         private const val BADGE_TOP_PADDING_DP = 4f
         private const val LABEL_PADDING_DP = 4f
-        private const val LABEL_SHADOW_RADIUS_DP = 2f
-        private const val LABEL_SHADOW_DY_DP = 0.5f
-        private const val LABEL_SHADOW_COLOR = 0x80000000.toInt()
+        internal const val LABEL_SHADOW_RADIUS_DP = 2f
+        internal const val LABEL_SHADOW_DY_DP = 0.5f
+        internal const val LABEL_SHADOW_COLOR = 0x80000000.toInt()
         private const val BURN_IN_HIDE_DELAY_MS = 10_000L
 
         fun attach(context: Context): IndicatorView {

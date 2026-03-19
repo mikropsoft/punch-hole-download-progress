@@ -169,6 +169,26 @@ object PrefsManager {
         private set
 
     @Volatile
+    var appIconEnabled = Prefs.appIconEnabled.default
+        private set
+
+    @Volatile
+    var appIconPosition = Prefs.appIconPosition.default
+        private set
+
+    @Volatile
+    var appIconSize = Prefs.appIconSize.default
+        private set
+
+    @Volatile
+    var appIconMonochrome = Prefs.appIconMonochrome.default
+        private set
+
+    @Volatile
+    var appIconOffsets = RotationOffsets.EMPTY
+        private set
+
+    @Volatile
     var previewFilenameText = Prefs.previewFilenameText.default
         private set
 
@@ -383,6 +403,11 @@ object PrefsManager {
                 filenameTextItalic = Prefs.filenameTextItalic.read(prefs)
                 filenameEllipsize = Prefs.filenameEllipsize.read(prefs)
                 filenameVerticalText = Prefs.filenameVerticalText.read(prefs)
+                appIconEnabled = Prefs.appIconEnabled.read(prefs)
+                appIconPosition = Prefs.appIconPosition.read(prefs)
+                appIconSize = Prefs.appIconSize.read(prefs)
+                appIconMonochrome = Prefs.appIconMonochrome.read(prefs)
+                appIconOffsets = Prefs.appIconOffsets.read(prefs)
                 previewFilenameText = Prefs.previewFilenameText.read(prefs)
                 ringScaleX = Prefs.ringScaleX.read(prefs)
                 ringScaleY = Prefs.ringScaleY.read(prefs)

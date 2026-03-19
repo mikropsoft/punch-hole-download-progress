@@ -150,6 +150,9 @@ object SystemUIHooker {
         DownloadProgressHooker.onFilenameChanged = { filename ->
             indicatorView?.let { it.post { it.currentFilename = filename } }
         }
+        DownloadProgressHooker.onPackageChanged = { packageName ->
+            indicatorView?.let { it.post { it.currentPackageName = packageName } }
+        }
 
         PrefsManager.onAppVisibilityChanged = { visible ->
             indicatorView?.let { it.post { it.appVisible = visible } }
@@ -244,6 +247,7 @@ object SystemUIHooker {
         DownloadProgressHooker.onDownloadCancelled = null
         DownloadProgressHooker.onActiveCountChanged = null
         DownloadProgressHooker.onFilenameChanged = null
+        DownloadProgressHooker.onPackageChanged = null
 
         PrefsManager.onAppVisibilityChanged = null
         PrefsManager.onTestProgressChanged = null

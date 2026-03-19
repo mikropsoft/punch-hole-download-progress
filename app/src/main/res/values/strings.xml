@@ -50,6 +50,7 @@
     <string name="group_geometry">Geometry</string>
     <string name="group_percent_text">Percentage Text</string>
     <string name="group_filename_text">Filename Text</string>
+    <string name="group_app_icon">Source App</string>
     <string name="group_animation">Animation</string>
     <string name="group_indicators">Indicators</string>
     <string name="group_feedback">Feedback</string>
@@ -133,6 +134,16 @@
     <string name="pref_show_filename_summary">Display the name of the file being downloaded</string>
     <string name="pref_calibrate_filename_title">Calibrate filename</string>
     <string name="pref_calibrate_filename_summary">Adjust filename label placement</string>
+
+    <!-- Design: App Icon -->
+    <string name="pref_app_icon_enabled_title">Source app icon</string>
+    <string name="pref_app_icon_enabled_summary">Show which app started the download</string>
+    <string name="pref_app_icon_monochrome_title">Monochrome icon</string>
+    <string name="pref_app_icon_monochrome_summary">Tint to ring color using the themed icon silhouette</string>
+    <string name="pref_app_icon_size_title">Icon size</string>
+    <string name="pref_app_icon_size_summary">Adjust the source app icon size</string>
+    <string name="pref_calibrate_app_icon_title">Calibrate source icon</string>
+    <string name="pref_calibrate_app_icon_summary">Adjust source app icon placement</string>
 
     <!-- Motion: Animation -->
     <string name="pref_completion_style_title">Completion style</string>

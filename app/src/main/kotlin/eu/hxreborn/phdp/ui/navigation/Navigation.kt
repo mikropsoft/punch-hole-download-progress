@@ -80,6 +80,9 @@ sealed interface Screen : NavKey {
     data object FilenameCalibration : Screen
 
     @Serializable
+    data object AppIconCalibration : Screen
+
+    @Serializable
     data object BadgeCalibration : Screen
 
     @Serializable
@@ -165,6 +168,7 @@ fun MainNavDisplay(
                                         CalibrationTarget.RING -> Screen.Calibration
                                         CalibrationTarget.PERCENT -> Screen.PercentCalibration
                                         CalibrationTarget.FILENAME -> Screen.FilenameCalibration
+                                        CalibrationTarget.APP_ICON -> Screen.AppIconCalibration
                                     },
                                 )
                             },
@@ -256,6 +260,33 @@ fun MainNavDisplay(
                                 previewText = Prefs.previewFilenameText bind prefs.previewFilenameText,
                                 verticalText = Prefs.filenameVerticalText bind prefs.filenameVerticalText,
                             ),
+                    )
+                }
+                entry<Screen.AppIconCalibration>(metadata = slideTransitionMetadata) {
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    val prefs = (uiState as? SettingsUiState.Success)?.prefs ?: return@entry
+                    val rotation = rememberDisplayRotation()
+                    val slot = RotationSlot.fromSurfaceRotation(rotation)
+                    val current = prefs.appIconOffsets[slot]
+                    TextCalibrationScreen(
+                        titleRes = R.string.pref_calibrate_app_icon_title,
+                        offsetX = current.x,
+                        offsetY = current.y,
+                        onOffsetXChange = { newX ->
+                            val updated = prefs.appIconOffsets.with(slot, OffsetPx(newX, current.y))
+                            viewModel.savePref(Prefs.appIconOffsets, updated)
+                        },
+                        onOffsetYChange = { newY ->
+                            val updated = prefs.appIconOffsets.with(slot, OffsetPx(current.x, newY))
+                            viewModel.savePref(Prefs.appIconOffsets, updated)
+                        },
+                        onOffsetReset = {
+                            val updated = prefs.appIconOffsets.with(slot, OffsetPx())
+                            viewModel.savePref(Prefs.appIconOffsets, updated)
+                        },
+                        viewModel = viewModel,
+                        onNavigateBack = { backStack.removeLastOrNull() },
+                        bottomNavPadding = bottomNavPadding,
                     )
                 }
                 entry<Screen.MaterialYou>(metadata = slideTransitionMetadata) {
@@ -367,6 +398,7 @@ fun BottomNav(
                 Screen.Calibration,
                 Screen.PercentCalibration,
                 Screen.FilenameCalibration,
+                Screen.AppIconCalibration,
                 Screen.MaterialYou,
                 -> Screen.Design
 

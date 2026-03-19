@@ -41,12 +41,14 @@ object DownloadProgressHooker {
     var onDownloadCancelled: (() -> Unit)? = null
     var onActiveCountChanged: ((Int) -> Unit)? = null
     var onFilenameChanged: ((String?) -> Unit)? = null
+    var onPackageChanged: ((String?) -> Unit)? = null
 
     fun clearActiveDownloads() {
         activeDownloads.clear()
         onActiveCountChanged?.invoke(0)
         onProgressChanged?.invoke(0)
         onFilenameChanged?.invoke(null)
+        onPackageChanged?.invoke(null)
         log("Downloads cleared manually")
     }
 
@@ -144,6 +146,7 @@ object DownloadProgressHooker {
                 it.contains("Untitled", ignoreCase = true)
             }
         onFilenameChanged?.invoke(filename)
+        onPackageChanged?.invoke(leadingEntry?.value?.packageName)
     }
 
     private fun getPackageName(sbn: Any): String? =
